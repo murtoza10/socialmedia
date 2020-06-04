@@ -1,0 +1,26 @@
+<div class="login-form">
+    <form #f="ngForm" (ngSubmit)="login(f.value)">
+        <h2 class="text-center">Sign in</h2>		
+        <div class="form-group">
+        	<div class="form-group">
+                <!-- <span class="input-group-addon"><i class="fa fa-user"></i></span> -->
+                <input #email1="ngModel" [(ngModel)]="email" type="email" class="form-control" name="email" placeholder="Email ID" required="required">
+                <div class="alert alert-danger" *ngIf="email1.touched && email1.invalid">
+                    <div *ngIf="email1.errors.required">Email is required</div>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="form-group">
+                <!-- <span class="input-group-addon"><i class="fa fa-lock"></i></span> -->
+                <input #password1="ngModel" [(ngModel)]="password" type="password" class="form-control" name="password" placeholder="Password" required="required">
+                <div class="alert alert-danger" *ngIf="password1.touched && password1.invalid">
+                    <div *ngIf="password1.errors.required">Password is required</div>
+                </div>
+            </div>
+        </div> 
+        <button class="btn btn-success btn-block login-btn">Sign in</button>       
+        
+    </form>
+    <div class="hint-text small">Don't have an account? <a routerLink="/signup" class="text-success">Register Now!</a></div>
+</div>

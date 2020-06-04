@@ -10,9 +10,6 @@ import { AuthenticationService } from '../authentication.service';
 export class SignupComponent implements OnInit {
 
   userinfo ={};
-  email='';
-  username = '';
-  password = '';
   constructor(private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService) { }
@@ -23,7 +20,7 @@ export class SignupComponent implements OnInit {
   save(userinfo){
     console.log(userinfo);
     this.authenticationService.Signup(userinfo).subscribe((res) =>{
-      if(this.authenticationService.apiResponse.success)  this.router.navigate(['home']);
+      if(this.authenticationService.apiResponse.success)  this.router.navigate(['login']);
       else console.log("User already exists");
     });
 
