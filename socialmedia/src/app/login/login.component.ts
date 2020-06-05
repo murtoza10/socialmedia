@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   user = {};
   email='';
+  alert =0;
   token: JWTToken;
   password = '';
 
@@ -26,10 +27,10 @@ export class LoginComponent implements OnInit {
   }
 
   login(user){
-    console.log(this.email+" "+this.password);
     this.authenticationService.executeJwtAuthenticationService(this.email, this.password).subscribe(res=>{
-      console.log(res);
+      this.alert=1;
       this.authenticationService.getUser(res.accessToken).subscribe(res=>{
+        this.user=this.authenticationService.user;    
         this.router.navigate(['home']);
       });
       

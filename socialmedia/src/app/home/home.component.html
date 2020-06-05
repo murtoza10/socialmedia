@@ -1,1 +1,90 @@
-<p>home works!</p>
+<app-navbar [user]="user"></app-navbar>
+<div class="login-form">
+    <form #f="ngForm" (ngSubmit)="post(f.value)">
+        <h2 class="text-center">Post a Status</h2>
+       
+            <div class="row justify-content">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="status" style="font-weight: 500;">Status</label>
+                        <textarea #status1="ngModel" [(ngModel)]="status" name="status" class="form-control" rows="4"
+                            required="required" data-error="Please, leave us a st."></textarea>
+                        <div class="alert alert-danger" *ngIf="status1.touched && status1.invalid">
+                            <div *ngIf="status1.errors.required">Status is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row justify-content">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="radio">
+                        <label class="public">
+                            <input ngModel type="radio" name="privacy" value="1">
+                            Public
+                        </label>
+                        <label>
+                            <input ngModel type="radio" name="privacy" value="2">
+                            Private
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row justify-content">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="locationlist" style="font-weight: 500;">Check In</label>
+                        <select ngModel name="locationlist" id="locationlist" class="form-control">
+                            <option value=""></option>
+                            <option *ngFor="let location of locationlist" [value]="location.id">{{location.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row justify-content">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <input type="submit" class="btn btn-success btn-send" value="Post">
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
+        
+
+    </form>
+
+</div>
+
+
+<div class="row justify-content-center post">
+    <div class="col-md-6">
+        <div class="jumbotron">
+            <div class="input-group">
+                <span class="material-icons">person</span>
+                <h4 class="display-6">Hello, world!</h4>
+            </div>
+            <div class="input-group">
+                <span class="material-icons">room</span>
+                <p class="lead">Location</p>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="input-group">
+                <span class="material-icons">edit</span>
+                <p>Status</p>
+            </div>
+
+            <p class="lead">
+                <input type="submit" class="btn btn-primary btn-md" value="Edit">
+            </p>
+        </div>
+
+    </div>
+</div>

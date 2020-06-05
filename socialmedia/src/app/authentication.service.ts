@@ -37,7 +37,6 @@ export class AuthenticationService {
 
   getUser(token){
     this.token=token;
-    console.log("getuser "+this.token);
     
     return this.http.get(`${this.BASE_PATH}/user/me`,{
       headers: new HttpHeaders({
@@ -75,5 +74,11 @@ export class AuthenticationService {
     let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
     if (user === null) return ''
     return user
+  }
+
+  logout() {
+    sessionStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    this.user.name = null;
+    this.token = null;
   }
 }
