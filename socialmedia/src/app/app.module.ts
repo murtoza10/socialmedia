@@ -1,3 +1,4 @@
+import { PostService } from './post.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -32,6 +33,7 @@ import { AuthGuardService } from './auth-guard.service';
   providers: [
     AuthenticationService,
     AuthGuardService,
+    PostService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
