@@ -27,10 +27,8 @@ public class AppProperties {
         }
     }
 
-
     public Auth getAuth() {
         return auth;
     }
-
 
 }
