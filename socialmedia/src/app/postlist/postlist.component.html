@@ -1,0 +1,62 @@
+<div class="row justify-content-center post">
+    <div class="col-md-6" >
+        <div class="jumbotron" *ngIf="pinnedpost">
+            <div class="input-group">
+                <span class="material-icons">person</span>
+                <h4 class="display-6">{{user.name}}</h4>
+            </div>
+            <div class="input-group">
+                <span class="material-icons">room</span>
+                <p class="lead">{{pinnedpost.location}}</p>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="input-group">
+                <span class="material-icons">edit</span>
+                <p>{{pinnedpost.status}}</p>
+            </div>
+
+            <p class="lead">
+                <button class="btn btn-primary btn-md" *ngIf="pinnedpost.user.userId==user.userId"
+                [routerLink]="['/post', post.postId]">Edit</button>
+                <button class="btn btn-primary btn-md" *ngIf="pinnedpost.user.userId==user.userId && user.pinned==pinnedpost.postId"
+                (click)="Unpinning()">Unpin</button>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<div class="row justify-content-center post">
+    <div class="col-md-6"  >
+        <div *ngFor="let post of postlist; let i=index">
+        <div class="jumbotron" *ngIf="!pinnedpost || pinnedpost.postId!=post.postId">
+            <div class="input-group">
+                <span class="material-icons">person</span>
+                <h4 class="display-6">{{user.name}}</h4>
+            </div>
+            <div class="input-group">
+                <span class="material-icons">room</span>
+                <p class="lead">{{post.location}}</p>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="input-group">
+                <span class="material-icons">edit</span>
+                <p>{{post.status}}</p>
+            </div>
+
+            <p class="lead">
+                <button class="btn btn-primary btn-md" *ngIf="post.user.userId==user.userId"
+                [routerLink]="['/post', post.postId]">Edit</button>
+                <button class="btn btn-primary btn-md" *ngIf="post.user.userId==user.userId && user.pinned==null"
+                (click)="Pinning(post.postId,post,i)">Pin</button>
+                <button class="btn btn-primary btn-md" *ngIf="post.user.userId==user.userId && user.pinned==post.postId"
+                (click)="Unpinning()">Unpin</button>
+            </p>
+        </div>
+    </div>
+    </div>
+</div>

@@ -1,12 +1,11 @@
-import { Time } from '@angular/common';
-
+import { User } from './User';
 export interface Post{
-    id: number;
+    postId: number;
     status: String;
     privacy: String;
-    location: string;
+    location: String;
     pinned: boolean;
     timestamp: number;
-    userid: number;
+    user: User;
 
 }

@@ -10,16 +10,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  
-  @Input('user') user:User;
-
+  username ='';
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
+    this.username=this.authenticationService.getLoggedInUserName();
   }
 
   logout(){

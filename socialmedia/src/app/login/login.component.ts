@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit {
   password = '';
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService) { 
 
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  login(user){
+  login(){
     this.authenticationService.executeJwtAuthenticationService(this.email, this.password).subscribe(res=>{
       this.alert=1;
       this.authenticationService.getUser(res.accessToken).subscribe(res=>{

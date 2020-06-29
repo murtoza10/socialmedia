@@ -1,3 +1,4 @@
+import { UserService } from './user.service';
 import { PostService } from './post.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,9 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HttpInterceptorService } from './http-interceptor.service';
 import { AuthGuardService } from './auth-guard.service';
+import { LoggedinAuthGuardService } from './loggedin-auth-guard.service';
+import { PostComponent } from './post/post.component';
+import { PostlistComponent } from './postlist/postlist.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,9 @@ import { AuthGuardService } from './auth-guard.service';
     SignupComponent,
     LoginComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    PostComponent,
+    PostlistComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +39,10 @@ import { AuthGuardService } from './auth-guard.service';
   providers: [
     AuthenticationService,
     AuthGuardService,
+    LoggedinAuthGuardService,
     PostService,
+    UserService,
+    PostlistComponent,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,

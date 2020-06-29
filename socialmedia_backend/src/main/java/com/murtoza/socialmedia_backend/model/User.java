@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long userId;
 
     @Column(nullable = false)
     private String name;
@@ -22,12 +22,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public Long getId() {
-        return user_id;
+    @Column(nullable = true)
+    private Long pinned;
+
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.user_id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -54,4 +57,11 @@ public class User {
         this.password = password;
     }
 
+    public Long getPinned() {
+        return pinned;
+    }
+
+    public void setPinned(Long pinned) {
+        this.pinned = pinned;
+    }
 }

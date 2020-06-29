@@ -38,17 +38,24 @@ export class AuthenticationService {
   getUser(token){
     this.token=token;
     
-    return this.http.get(`${this.BASE_PATH}/user/me`,{
+    return this.http.get<User>(`${this.BASE_PATH}/user/me`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
     })
     }
-    ).pipe(map( (res: User) => {
+    )
+    .pipe(map( (res: User) => {
+      //console.log(res);
       this.user =res;
-      console.log("hello"+this.user.name);
-      this.registerSuccessfulLoginForJwt(this.user.name);
+      console.log(this.user);
+      console.log("hello "+this.user.name+" "+this.user.userId);
+      this.registerSuccessfulLoginForJwt(this.user.name,this.token);
     }));
+  }
+
+  getUserDetails(){
+    return this.http.get<User>(`${this.BASE_PATH}/user/me`);
   }
 
   Signup(userinfo) {
@@ -60,24 +67,32 @@ export class AuthenticationService {
     
   }
 
-  registerSuccessfulLoginForJwt(username) {
-    sessionStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username);
+  registerSuccessfulLoginForJwt(username,token) {
+    localStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username);
+    localStorage.setItem("token", token);
   }
 
   isUserLoggedIn() {
-    let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    let user = localStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
     if (user === null) return false
     return true
   }
 
   getLoggedInUserName() {
-    let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    let user = localStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
     if (user === null) return ''
     return user
   }
 
+  getToken(){
+    let token = localStorage.getItem("token");
+    if (token === null) return ''
+    return token
+  }
+
   logout() {
-    sessionStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    localStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    localStorage.removeItem("token");
     this.user.name = null;
     this.token = null;
   }

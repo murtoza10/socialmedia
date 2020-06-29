@@ -1,16 +1,22 @@
 package com.murtoza.socialmedia_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "post", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "post_id")
+        @UniqueConstraint(columnNames = "postId")
 })
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long post_id;
+    private Long postId;
 
     @Column(nullable = false)
     private String status;
@@ -22,20 +28,19 @@ public class Post {
     private String location;
 
     @Column(nullable = false)
-    private Boolean pinned;
-
-    @Column(nullable = false)
     private Date timestamp;
 
-    @Column(nullable = false)
-    private Long user_id;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
-    public Long getPost_id() {
-        return post_id;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setPost_id(Long post_id) {
-        this.post_id = post_id;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public String getStatus() {
@@ -62,14 +67,6 @@ public class Post {
         this.location = location;
     }
 
-    public Boolean getPinned() {
-        return pinned;
-    }
-
-    public void setPinned(Boolean pinned) {
-        this.pinned = pinned;
-    }
-
     public Date getTimestamp() {
         return timestamp;
     }
@@ -78,15 +75,11 @@ public class Post {
         this.timestamp = timestamp;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-
-
-
 }

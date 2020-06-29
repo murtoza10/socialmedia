@@ -1,11 +1,14 @@
 package com.murtoza.socialmedia_backend.controller;
 
-import com.murtoza.socialmedia_backend.model.Location;
+import com.murtoza.socialmedia_backend.exception.ResourceNotFoundException;
 import com.murtoza.socialmedia_backend.model.Post;
+import com.murtoza.socialmedia_backend.model.User;
 import com.murtoza.socialmedia_backend.repository.PostRepository;
+import com.murtoza.socialmedia_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,9 +18,16 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
-    @PostMapping("/Addpost")
-    public String savePost(@RequestBody Post post) {
-        postRepository.save(post);
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/addPost/{userId}")
+    public String savePost(@PathVariable (value = "userId") Long userId,
+                           @Valid @RequestBody Post post) {
+        userRepository.findById(userId).map(user -> {
+            post.setUser(user);
+            return postRepository.save(post);
+        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         return post.getStatus() + " is successfully stored";
     }
 
@@ -26,19 +36,28 @@ public class PostController {
         return postRepository.findAll();
     }
 
-    @RequestMapping(value = "/Updatepost/{post_id}",
-            method = RequestMethod.PUT,consumes = {"text/plain;charset=UTF-8", org.springframework.http.MediaType.APPLICATION_JSON_VALUE})
-    public String updatePost(@RequestBody Post post,@PathVariable Long post_id) {
+    @GetMapping("/getAllByUser/{userId}")
+    public List<Post> findAllPostsByUserOrPrivacy(@PathVariable (value = "userId") Long userId) {
 
-        if(postRepository.findById(post_id).isPresent()){
-            Post postById = postRepository.findById(post_id).get();
-            postById.setStatus(post.getStatus());
-            postById.setLocation(post.getLocation());
-            postById.setPinned(post.getPinned());
-            postById.setPrivacy(post.getPrivacy());
-            postRepository.save(postById);
-        }
-
-            return post.getPost_id()+ " is successfully updated";
+        User user=userRepository.findById(userId).
+        orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        return postRepository.findByUserOrPrivacy(user,"public");
     }
+
+    @GetMapping("/getFilteredPostByUser/{userId}")
+    public List<Post> findAllPostsByUserOrPrivacyFilteredByPostId(@PathVariable (value = "userId") Long userId) {
+
+        User user=userRepository.findById(userId).
+                orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        return postRepository.findByPostIdNotAndUserOrPrivacy(user.getPinned(), user,"public");
+    }
+
+    @GetMapping("/getPostByPostid/{postId}")
+    public Post findPostByPostId(@PathVariable (value = "postId") Long postId) {
+
+        return postRepository.findByPostId(postId).
+                orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
+    }
+
+
     }

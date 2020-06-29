@@ -1,5 +1,7 @@
 export interface User{
-    id: number;
+    userId: number;
     name: String;
     email: String;
+    password: String;
+    pinned: number;
 }
